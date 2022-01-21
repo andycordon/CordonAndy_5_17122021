@@ -14,7 +14,7 @@ const fetchProduct = async () => {
     return productData;
 };
 
-fetchProduct();
+//fetchProduct();
 
 
 //Etape 6 : Insérer un produit et ses détails dans la page Produit
@@ -26,13 +26,19 @@ const canapeViews = async () => {
   let title = document.getElementById('title');
   let price = document.getElementById('price');
   let description = document.getElementById('description');
+  let color = document.getElementById('colors');
   itemImg.innerHTML += `<img src='${canapeProductView.imageUrl}' alt=${canapeProductView.altTxt} />`;
   title.innerHTML += `<h1 id='title'>${canapeProductView.name}</h1>`;
   price.innerHTML += `${canapeProductView.price}`;
   description.innerHTML += `${canapeProductView.description}`;
+  for (let i = 0; i <canapeProductView.colors.length; i++){
+      colors.innerHTML +=
+      `<option value = "${canapeProductView.colors[i]}"> ${canapeProductView.colors[i]} </option>`
+  }
+
 };
 
-
+canapeViews();
 
 
 
