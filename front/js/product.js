@@ -81,5 +81,4 @@ else{
     canapeStorage.push(addToCart);
     localStorage.setItem("product", JSON.stringify(canapeStorage));
 }
-
 });
