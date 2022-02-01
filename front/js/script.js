@@ -13,7 +13,7 @@ const kanapView = async () => {
   let items = document.getElementById('items');
   for (let i = 0; i < element.length; i++) {
     items.innerHTML += 
-    ` <a href="product.html?id=${element[i]._id}"> 
+    `<a href="product.html?id=${element[i]._id}"> 
         <article> 
           <img src='${element[i].imageUrl}' alt='${element[i].altTxt}' /> 
           <h3 class='productName'>${element[i].name}</h3> 
