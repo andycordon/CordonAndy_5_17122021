@@ -51,20 +51,35 @@ bouton.addEventListener('click', () => {
     let color = document.getElementById('colors').value;
     let quantity = Number(document.getElementById('quantity').value);
 
-let Panier = {
+let addToCart = {
     id: id,
     color: color,
     quantity: quantity,
 };
-localStorage.setItem('panier', JSON.stringify(Panier))
 
-//Alerte si manque de renseignement ou erreur
+//Alerte si manque couleur ou quantite 
 if (!color) {
     alert('Veuillez choisir une couleur');
     return;
-  }
+  };
 if (!(quantity > 0 && quantity < 101)) {
     alert('Veuillez choisir une quantité entre 1 et 100');
     return;
   };
+
+//Importation dans le local storage
+let canapeStorage = JSON.parse(localStorage.getItem("product"));
+
+//Si il y a deja des produits dans le local storage
+if(canapeStorage){
+    canapeStorage.push(addToCart);
+    localStorage.setItem("product", JSON.stringify(canapeStorage));
+}
+//Si il n y a pas de produits dans le local storage
+else{
+    canapeStorage = [];
+    canapeStorage.push(addToCart);
+    localStorage.setItem("product", JSON.stringify(canapeStorage));
+}
+
 });
