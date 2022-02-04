@@ -68,17 +68,41 @@ if (!(quantity > 0 && quantity < 101)) {
   };
 
 //Importation dans le local storage
-let canapeStorage = JSON.parse(localStorage.getItem("product"));
+let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
 
-//Si il y a deja des produits dans le local storage
-if(canapeStorage){
-    canapeStorage.push(addToCart);
-    localStorage.setItem("product", JSON.stringify(canapeStorage));
+const addProductLocalStorage = () => {
+    productInLocalStorage.push(addToCart);
+    localStorage.setItem("product", JSON.stringify(productInLocalStorage));
+    }
+
+//Si le panier est vide  
+if(productInLocalStorage === null){
+    productInLocalStorage = [];
+    addProductLocalStorage();
 }
-//Si il n y a pas de produits dans le local storage
+
+//Sinon on ajoute un produit
 else{
-    canapeStorage = [];
-    canapeStorage.push(addToCart);
-    localStorage.setItem("product", JSON.stringify(canapeStorage));
+    // ajouter le même produit
+    let resultFind = productInLocalStorage.find(k => k.id == id && k.color == addToCart.color);
+
+    if (resultFind) {
+        let newQuantity = parseInt(addToCart.quantity) + parseInt(resultFind.quantity);
+        resultFind.quantity = newQuantity;
+        localStorage.setItem("product", JSON.stringify(productInLocalStorage));
+    }
+    //ajouter un nouveau produit
+    else{
+        addProductLocalStorage();
+    }
 }
 });
+
+
+/*
+si panier vide
+
+sinon ajouter un produit
+    -le meme produit (ajouter meme id et color)
+    -un nouveau produit (autre (id et color) ou meme (id et newcolor)
+*/
