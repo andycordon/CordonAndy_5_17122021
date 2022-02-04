@@ -91,7 +91,7 @@ else{
         resultFind.quantity = newQuantity;
         localStorage.setItem("product", JSON.stringify(productInLocalStorage));
     }
-    //ajouter un nouveau produit
+    //ajouter un tout nouveau produit
     else{
         addProductLocalStorage();
     }
