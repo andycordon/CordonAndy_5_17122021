@@ -97,12 +97,3 @@ else{
     }
 }
 });
-
-
-/*
-si panier vide
-
-sinon ajouter un produit
-    -le meme produit (ajouter meme id et color)
-    -un nouveau produit (autre (id et color) ou meme (id et newcolor)
-*/

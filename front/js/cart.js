@@ -53,4 +53,7 @@ else{
     
     }
 
+//Étape 9 : Gérer la modification et la suppression de produits dans la page Panier
+
+
 }
