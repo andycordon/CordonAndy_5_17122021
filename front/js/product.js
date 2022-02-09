@@ -1,3 +1,4 @@
+
 //Etape 4 : Faire le lien entre un produit de la page d’accueil et la page Produit
 
 //Changer l'url de l'API
@@ -63,22 +64,27 @@ if (!color) {
     return;
   };
 if (!(quantity > 0 && quantity < 101)) {
-    alert('Veuillez choisir une quantité entre 1 et 100');
+    alert('Veuillez choisir une quantité entre 1 et 100.');
     return;
   };
 
 //Importation dans le local storage
-let productInLocalStorage = JSON.parse(localStorage.getItem("product"));
+let productInLocalStorage = JSON.parse(localStorage.getItem('product'));
 
 const addProductLocalStorage = () => {
     productInLocalStorage.push(addToCart);
-    localStorage.setItem("product", JSON.stringify(productInLocalStorage));
+    localStorage.setItem('product', JSON.stringify(productInLocalStorage));
+    }
+
+const addConfirm = () => {
+    alert('Le produit a bien été ajouté au panier.');
     }
 
 //Si le panier est vide  
 if(productInLocalStorage === null){
     productInLocalStorage = [];
     addProductLocalStorage();
+    addConfirm();
 }
 
 //Sinon on ajoute un produit
@@ -89,11 +95,13 @@ else{
     if (resultFind) {
         let newQuantity = parseInt(addToCart.quantity) + parseInt(resultFind.quantity);
         resultFind.quantity = newQuantity;
-        localStorage.setItem("product", JSON.stringify(productInLocalStorage));
+        localStorage.setItem('product', JSON.stringify(productInLocalStorage));
+        addConfirm();
     }
     //ajouter un tout nouveau produit
     else{
         addProductLocalStorage();
+        addConfirm();
     }
 }
 });
