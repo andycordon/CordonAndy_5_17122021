@@ -60,11 +60,11 @@ let addToCart = {
 
 //Alerte si manque couleur ou quantite 
 if (!color) {
-    alert('Veuillez choisir une couleur');
+    alert('Veuillez choisir une couleur.');
     return;
   };
 if (!(quantity > 0 && quantity < 101)) {
-    alert('Veuillez choisir une quantité entre 1 et 100.');
+    alert('Veuillez choisir une quantité.');
     return;
   };
 
@@ -77,7 +77,7 @@ const addProductLocalStorage = () => {
     }
 
 const addConfirm = () => {
-    alert('Le produit a bien été ajouté au panier.');
+    alert('Ajouté au panier.');
     }
 
 //Si le panier est vide  

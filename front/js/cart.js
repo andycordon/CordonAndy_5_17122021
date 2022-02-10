@@ -58,13 +58,14 @@ function totalArticles() {
         totalQuantity.textContent = totalItems;
   }
   totalArticles();
-  
-  // Montant total du panier
+
+/*
+// Montant total du panier
+let el = document.querySelector('.cart__item__content__description');
 function priceAmount() {
     const calculPrice = [];
-    for (m = 0; m < productInLocalStorage.length; m++) {
-        console.log(document.getElementById('abc' + productInLocalStorage[m].id + productInLocalStorage[m].color));
-        const cartAmount = document.getElementById('abc' + productInLocalStorage[m].id + productInLocalStorage[m].color) * productInLocalStorage[m].quantity;
+    for (m = 0; m < el.dataset.price; m++) {
+        const cartAmount = el.dataset.price * productInLocalStorage[m].quantity;
         calculPrice.push(cartAmount);
         const reduce = (previousValue, currentValue) => previousValue + currentValue;
         total = calculPrice.reduce(reduce);
@@ -73,32 +74,102 @@ function priceAmount() {
         totalPrice.textContent = total;
   }
   priceAmount();
-
-/*
-//Modification de la quantité du panier
-    function changeQuantity () {
-        let itemQuantity = document.querySelectorAll('.itemQuantity');
-        for (let j = 0; j < itemQuantity.length; j++) {
-            itemQuantity[j].addEventListener('change', (event) => {
-                event.preventDefault();
-                let itemNewQuantity = itemQuantity[j].value;
-                const newAddToCart = {
-                    id: productInLocalStorage[j].id,
-                    image: productInLocalStorage[j].image,
-                    alt: productInLocalStorage[j].alt,
-                    name: productInLocalStorage[j].name,
-                    color: productInLocalStorage[j].color,
-                    price: productInLocalStorage[j].price,   
-                    quantity: itemNewQuantity,                                  
-                };
-
-                productInLocalStorage[j] = newAddToCart;
-                localStorage.setItem('product', JSON.stringify(productInLocalStorage));
-
-                alert('Votre panier est à jour.');
-            })
-        }
-    }
 */
+
+
+
+
+
+
+//Ajouter un produit
+//Retirer un produit
+//Supprimer un produit
+
+
+//Étape 10 : Passer la commande
+
+let nameRegex = /^[a-zA-Z\-çñàéèêëïîôüù ]{2,}$/;
+let adressRegex = /^[0-9a-zA-Z\s,.'-çñàéèêëïîôüù]{3,}$/;
+let emailRegex = /^[A-Za-z0-9\-\.]+@([A-Za-z0-9\-]+\.)+[A-Za-z0-9-]{2,4}$/;
+
+const firstName = document.getElementById('firstName');
+const lastName = document.getElementById('lastName');
+const address = document.getElementById('address');
+const city = document.getElementById('city');
+const email = document.getElementById('email');
+
+firstName.addEventListener('input', (event) => {
+    event.preventDefault();
+    if (nameRegex.test(firstName.value) == false || firstName.value == '') {
+        document.getElementById('firstNameErrorMsg').innerHTML ='Prénom invalide';
+    } else {
+        document.getElementById("firstNameErrorMsg").innerHTML = "";
+      }
+});
+
+lastName.addEventListener("input", (event) => {
+    event.preventDefault();
+    if (nameRegex.test(lastName.value) == false || lastName.value == '') {
+        document.getElementById('lastNameErrorMsg').innerHTML = 'Nom invalide';
+    } else {
+        document.getElementById("lastNameErrorMsg").innerHTML = "";
+      }
+});
+
+address.addEventListener('input', (event) => {
+    event.preventDefault();
+    if (adressRegex.test(address.value) == false || address.value == '') {
+        document.getElementById('addressErrorMsg').innerHTML = 'Adresse invalide';
+    } else {
+        document.getElementById("addressErrorMsg").innerHTML = "";
+      }
+});
+
+city.addEventListener('input', (event) => {
+    event.preventDefault();
+    if (nameRegex.test(city.value) == false || city.value == '') {
+        document.getElementById('cityErrorMsg').innerHTML = 'Ville invalide';
+    } else {
+        document.getElementById("cityErrorMsg").innerHTML = "";
+      }
+});
+
+email.addEventListener('input', (event) => {
+    event.preventDefault();
+    if (emailRegex.test(email.value) == false || email.value == '') {
+        document.getElementById('emailErrorMsg').innerHTML = 'E-mail invalide';
+    } else {
+        document.getElementById("emailErrorMsg").innerHTML = "";
+      }
+});
+
+let order = document.getElementById('order');
+order.addEventListener('click', (o) => {
+  o.preventDefault();
+  let form = {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    address: address.value,
+    city: city.value,
+    email: email.value,
+  };
+
+if (
+firstName.value === "" || lastName.value === "" || address.value === "" || city.value === "" || email.value === ""
+) {
+alert('Veuillez renseigner tous les champs');
+} else if (
+    nameRegex.test(firstName.value) == false || nameRegex.test(lastName.value) == false || adressRegex.test(address.value) == false ||nameRegex.test(city.value) == false || emailRegex.test(email.value) == false
+    ) {
+    alert('Un ou plusieurs champs sont invalides');
+    } else {
+        let ordered = [];
+        productInLocalStorage.forEach((order) => {
+        ordered.push(order.id);
+    });
+}
+});
+
+
 
 }
