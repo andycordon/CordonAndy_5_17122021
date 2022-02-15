@@ -6,11 +6,11 @@ fetch('http://localhost:3000/api/products')
 	.then((data) => {
 
 //Afficher les produits avec une boucle
-		let showAllProduct = () => {
-			let items = document.getElementById('items');
+		let showAllProducts = () => {
+			let products = document.getElementById('items');
 
 			for (let p in data) {
-				items.innerHTML += `
+				products.innerHTML += `
 					<a href="./product.html?id=${data[p]._id}">
 						<article>
 							<img src="${data[p].imageUrl}" alt="${data[p].altTxt}">
@@ -22,5 +22,5 @@ fetch('http://localhost:3000/api/products')
 		};
 
 //Appel de la fonction
-		showAllProduct();
+		showAllProducts();
 	});
