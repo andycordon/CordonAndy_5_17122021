@@ -51,7 +51,33 @@ document.getElementById('totalPrice').textContent=totalPrice;
     
     }
 //Étape 9 : Gérer la modification et la suppression de produits dans la page Panier
-console.log(document.getElementsByClassName ("deleteItem"));
+// je supprime un produit dans le panier
+function deleteArticle() {
+  const deleteItem = document.querySelectorAll('.deleteItem');
+
+  for (let k = 0; k < deleteItem.length; k++) { 
+    deleteItem[k].addEventListener('click', (event) => {
+    event.preventDefault();
+
+    // enregistrer l'id et la couleur séléctionnés par le bouton supprimer
+    let deleteId = productInLocalStorage[k].id;
+    let deleteColor = productInLocalStorage[k].color;
+
+    // filtrer l'élément cliqué par le bouton supprimer
+    // en respectant les conditions du callback
+    productInLocalStorage = productInLocalStorage.filter( elt => elt.id !== deleteId || elt.color !== deleteColor);
+      
+    // envoyer les nouvelles données dans le localStorage
+    localStorage.setItem('product', JSON.stringify(productInLocalStorage));
+
+    // avertir de la suppression et recharger la page
+    alert('Votre article a bien été supprimé.');
+    window.location.href = "cart.html";
+    });
+  }
+}
+deleteArticle();
+
 
 
 
@@ -121,6 +147,15 @@ console.log(document.getElementsByClassName ("deleteItem"));
     order.addEventListener('click', (o) => {
     o.preventDefault();
 
+    let contact = {
+      firstName: firstName.value,
+      lastName: lastName.value,
+      address: address.value,
+      city: city.value,
+      email: email.value,
+    };
+
+
   if (
   firstName.value === "" || lastName.value === "" || address.value === "" || city.value === "" || email.value === ""
   ) {
@@ -135,8 +170,25 @@ console.log(document.getElementsByClassName ("deleteItem"));
           productInLocalStorage.forEach((order) => {
           ordered.push(order.id);
       });
-
       
-    }
+      let pageOrder = { contact, ordered };
+
+      // Appel à l'api order pour envoyer les tableaux
+      fetch('http://localhost:3000/api/products/order', {
+        method: 'POST',
+        body: JSON.stringify(pageOrder),
+        headers: {
+          'Accept': 'application/json',
+          'Content-type': 'application/json',
+        },
+      })
+      .then((res) => {
+        return res.json();
+      })
+      .then((confirm) => {
+        window.location.href = './confirmation.html?orderId=' + confirm.orderId;
+        localStorage.clear();
+      })
+    } 
   });
 }
