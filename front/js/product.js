@@ -1,6 +1,6 @@
 //Étape 4 : Faire le lien entre un produit de la page d’accueil et la page Produit
 
-// Utilisation de searchParams
+//Utilisation de searchParams
 let idProduct = new URL(window.location.href).searchParams.get('id');
 
 //Appel de l'API avec Fetch
@@ -8,13 +8,13 @@ fetch('http://localhost:3000/api/products')
 	.then((response) => response.json())
 	.then((data) => {
 
-
+        
 //Étape 5 : Récupérer l’id du produit à afficher
 
-// Trouver le produit sélectionné avec son id
+//Trouver le produit sélectionné avec son id
 		let findProduct = () => {
 			return data.find((product) => product._id === idProduct)
-		}
+		};
 
 		let myProduct = findProduct();
 
@@ -42,30 +42,30 @@ fetch('http://localhost:3000/api/products')
 				colors.insertAdjacentHTML(
 					'beforeend',
 					`<option value="${myProduct.colors[i]}">${myProduct.colors[i]}</option>`
-				)
-			}
-		}
+				);
+			};
+		};
 
-		showProductInPage()
-	})
+		showProductInPage();
+	});
 
 
 //Étape 7 : Ajouter des produits dans le panier
 //Créer le produit
 let createProduct = () => {
-	let quantity = document.querySelector('#quantity')
+	let quantity = document.querySelector('#quantity');
 
 //Le mettre dans le local storage
-	let productInLocalStorage = JSON.parse(localStorage.getItem('product'))
+	let productInLocalStorage = JSON.parse(localStorage.getItem('product'));
 
 	let optionProduct = {
 		_id: idProduct,
 		quantity: quantity.value,
 		colors: colors.value,
-	}
+	};
 
 //Alertes pour prévenir le client
-	let alert = document.querySelector('.item__content__addButton')
+	let alert = document.querySelector('.item__content__addButton');
 
 //Confirmation d'ajout au panier
     let addProductAlert = () => {
@@ -74,7 +74,7 @@ let createProduct = () => {
             `<span id ='alert' style='text-align: center; font-weight: bold; color: #2C3E50'>
             <br>Article(s) bien ajouté(s) au panier !</span>`
         )
-        endAlert()
+        endAlert();
     }
 
 //Prévenir le client qu'il ne peut pas commander plus de 100 fois le même produit
@@ -84,7 +84,7 @@ let createProduct = () => {
             `<span id ='alert' style='text-align: center; font-weight: bold; color: #2C3E50'>
             <br>Pour toutes commandes de plus de 100 articles identiques, merci de directement nous contacter</span>`
             )
-		endAlert()
+		endAlert();
 	}
 
 //Création des alertes d'erreurs de sélections
@@ -96,8 +96,8 @@ let createProduct = () => {
                 `<span id ='alert' style='text-align: center; font-weight: bold; color: #2C3E50'>
                 <br>Veuillez sélectionner une couleur</span>`
                 )
-			endAlert()
-		}
+			endAlert();
+		};
 //Alerte pour quantité non sélectionné
 		if (optionProduct.quantity <= 0) {
 			alert.insertAdjacentHTML(
@@ -105,7 +105,7 @@ let createProduct = () => {
                 `<span id ='alert' style='text-align: center; font-weight: bold; color: #2C3E50'>
                 <br>Veuillez choisir une quantité entre 1 et 100</span>`
 			)
-			endAlert()
+			endAlert();
 //Alerte pour une quantité supérieur a 100
 		} else if (optionProduct.quantity > 100) {
 			alert.insertAdjacentHTML(
@@ -113,75 +113,69 @@ let createProduct = () => {
                 `<span id ='alert' style='text-align: center; font-weight: bold; color: #2C3E50'>
                 <br>Pour toutes commandes de plus de 100 articles identiques, merci de directement nous contacter</span>`
 			)
-			endAlert()
-		}
-	}
+			endAlert();
+		};
+	};
 
 //Faire en sorte que l'alerte disparaisse apres affichage
     let endAlert = () => {
-        let endAlert = document.querySelector('#alert')
+        let endAlert = document.querySelector('#alert');
         setTimeout(function () {
-            endAlert.remove()
-        }, 3000)
-    }
+            endAlert.remove();
+        }, 2500);
+    };
 
 //Ajout du produit dans le local storage
     let addProductInLocalStorage = () => {
-        productInLocalStorage.push(optionProduct)
-        localStorage.setItem('product', JSON.stringify(productInLocalStorage))
-        addProductAlert()
+        productInLocalStorage.push(optionProduct);
+        localStorage.setItem('product', JSON.stringify(productInLocalStorage));
+        addProductAlert();
     }
 
 //Modifie un produit sélectionné dans le localStorage
     let modifyProductInLocalStorage = (i) => {
-        productInLocalStorage[i].quantity = parseInt(productInLocalStorage[i].quantity)
-        optionProduct.quantity = parseInt(optionProduct.quantity)
+        productInLocalStorage[i].quantity = parseInt(productInLocalStorage[i].quantity);
+        optionProduct.quantity = parseInt(optionProduct.quantity);
 
 //Prévient et empeche qu'un produit soit ajouté plus de 100 fois
-    let beforeMoreAfterAddProductInLocalStorage = optionProduct.quantity + productInLocalStorage[i].quantity
+    let beforeMoreAfterAddProductInLocalStorage = optionProduct.quantity + productInLocalStorage[i].quantity;
 
     if (beforeMoreAfterAddProductInLocalStorage > 100) {
-        maxLimitAlert()
+        maxLimitAlert();
 //Ajouter un produit dans le local storage
     } else {
-        productInLocalStorage[i].quantity += optionProduct.quantity
-        localStorage.setItem('product', JSON.stringify(productInLocalStorage))
-        addProductAlert()
+        productInLocalStorage[i].quantity += optionProduct.quantity;
+        localStorage.setItem('product', JSON.stringify(productInLocalStorage));
+        addProductAlert();
     }
 }
 //Si couleurs ou quantités non ou mal choisis, prévenir le client 
-	if (
-		optionProduct.colors == '' ||
-		optionProduct.quantity <= 0 ||
-		optionProduct.quantity > 100
-	) {
-		errorAlert()
+	if (optionProduct.colors == '' || optionProduct.quantity <= 0 || optionProduct.quantity > 100) {
+		errorAlert();
 //Sinon on ajoute un ou plusieurs produits
 	} else {
 //Si le panier est vide, création d'un tableau pour y ajouter le produit
 		if (!productInLocalStorage) {
-			productInLocalStorage = []
-			addProductInLocalStorage()
+			productInLocalStorage = [];
+			addProductInLocalStorage();
 		}
 //Sinon on cherche dans le panier si un produit est déjà présent
 		else {
-			let index = productInLocalStorage.findIndex(
-				(p) => p.colors === optionProduct.colors && p._id === optionProduct._id
-			)
+			let index = productInLocalStorage.findIndex((p) => p.colors === optionProduct.colors && p._id === optionProduct._id);
 //Si le produit à déjà été ajouté, sa quantité est modifié
 			if (index !== -1) {
-				modifyProductInLocalStorage(index)
+				modifyProductInLocalStorage(index);
 			}
 //Sinon ajout du nouveau produit
 			else {
-				addProductInLocalStorage()
-			}
-		}
-	}
-}
+				addProductInLocalStorage();
+			};
+		};
+	};
+};
 
 //Cliquer pour envoyer dans le panier
-let sendToCart = document.querySelector('#addToCart')
+let sendToCart = document.querySelector('#addToCart');
 sendToCart.addEventListener('click', (event) => {
-	createProduct()
-})
+	createProduct();
+});
