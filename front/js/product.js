@@ -5,49 +5,49 @@ let idProduct = new URL(window.location.href).searchParams.get('id');
 
 //Appel de l'API avec Fetch
 fetch('http://localhost:3000/api/products')
-	.then((response) => response.json())
-	.then((data) => {
+.then((response) => response.json())
+.then((data) => {
 
-        
+    
 //Étape 5 : Récupérer l’id du produit à afficher
 
 //Trouver le produit sélectionné avec son id
-		let findProduct = () => {
-			return data.find((product) => product._id === idProduct)
-		};
+    let findProduct = () => {
+        return data.find((product) => product._id === idProduct)
+    };
 
-		let myProduct = findProduct();
+    let myProduct = findProduct();
 
 
 //Étape 6 : Insérer un produit et ses détails dans la page Produit
 
 //Creation des variables pour affichage le produit sur la page
-		let showProductInPage = () => {
-			let productName = document.getElementsByTagName('title');
-			let image = document.querySelector('.item__img');
-			let title = document.querySelector('#title');
-			let price = document.querySelector('#price');
-			let description = document.querySelector('#description');
-			let colors = document.querySelector('#colors');
+    let showProductInPage = () => {
+        let productName = document.getElementsByTagName('title');
+        let image = document.querySelector('.item__img');
+        let title = document.querySelector('#title');
+        let price = document.querySelector('#price');
+        let description = document.querySelector('#description');
+        let colors = document.querySelector('#colors');
 
 //Affichage du produit sur la page
-			productName[0].innerHTML = myProduct.name
-			image.innerHTML = `<img src="${myProduct.imageUrl}" alt="${myProduct.altTxt}">`
-			title.innerHTML = myProduct.name
-			price.innerHTML = myProduct.price
-			description.innerHTML = myProduct.description
+        productName[0].innerHTML = myProduct.name
+        image.innerHTML = `<img src="${myProduct.imageUrl}" alt="${myProduct.altTxt}">`
+        title.innerHTML = myProduct.name
+        price.innerHTML = myProduct.price
+        description.innerHTML = myProduct.description
 
 //Affichage de la sélection des couleurs
-			for (let i in myProduct.colors) {
-				colors.insertAdjacentHTML(
-					'beforeend',
-					`<option value="${myProduct.colors[i]}">${myProduct.colors[i]}</option>`
-				);
-			};
-		};
+        for (let i in myProduct.colors) {
+            colors.insertAdjacentHTML(
+                'beforeend',
+                `<option value="${myProduct.colors[i]}">${myProduct.colors[i]}</option>`
+            );
+        };
+    };
 
-		showProductInPage();
-	});
+    showProductInPage();
+});
 
 
 //Étape 7 : Ajouter des produits dans le panier
@@ -73,7 +73,7 @@ let createProduct = () => {
             'afterend',
             `<span id ='alert' style='text-align: center; font-weight: bold; color: #2C3E50'>
             <br>Article(s) bien ajouté(s) au panier !</span>`
-        )
+        );
         endAlert();
     }
 
@@ -83,7 +83,7 @@ let createProduct = () => {
 			'afterend',
             `<span id ='alert' style='text-align: center; font-weight: bold; color: #2C3E50'>
             <br>Pour toutes commandes de plus de 100 articles identiques, merci de directement nous contacter</span>`
-            )
+            );
 		endAlert();
 	}
 
@@ -95,7 +95,7 @@ let createProduct = () => {
 				'afterend',
                 `<span id ='alert' style='text-align: center; font-weight: bold; color: #2C3E50'>
                 <br>Veuillez sélectionner une couleur</span>`
-                )
+                );
 			endAlert();
 		};
 //Alerte pour quantité non sélectionné
@@ -104,7 +104,7 @@ let createProduct = () => {
 				'afterend',
                 `<span id ='alert' style='text-align: center; font-weight: bold; color: #2C3E50'>
                 <br>Veuillez choisir une quantité entre 1 et 100</span>`
-			)
+			);
 			endAlert();
 //Alerte pour une quantité supérieur a 100
 		} else if (optionProduct.quantity > 100) {
@@ -112,7 +112,7 @@ let createProduct = () => {
 				'afterend',
                 `<span id ='alert' style='text-align: center; font-weight: bold; color: #2C3E50'>
                 <br>Pour toutes commandes de plus de 100 articles identiques, merci de directement nous contacter</span>`
-			)
+			);
 			endAlert();
 		};
 	};
