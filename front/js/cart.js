@@ -88,36 +88,6 @@ fetch('http://localhost:3000/api/products')
     
 //Étape 9 : Gérer la modification et la suppression de produits dans la page Panier
 
-//Supprimer un produit
-    let deleteProduct = () => {
-
-//Met dans un tableau les boutons supprimer de la page panier
-      let deleteItem = [...document.querySelectorAll('.deleteItem')]
-      let cartItem = [...document.querySelectorAll('.cart__item')]
-      
-//Lors du click sur un bouton supprimer
-      deleteItem.forEach((element, i) => {
-        element.addEventListener('click', () => {
-          let indexCartPage = productInLocalStorage.findIndex((p) => p.colors === cartItem[i].dataset.color && p._id === cartItem[i].dataset.id);
-
-//Si le produit est supprimer, il disparait de la page panier et du local storage
-          if (indexCartPage !== -1) {
-            productInLocalStorage.splice(indexCartPage, 1)
-            localStorage.setItem('product', JSON.stringify(productInLocalStorage))
-            cartItem[i].remove();
-
-//Si le tableau crée précédement est vide, il est supprimer et la page est raffraichie
-            if (productInLocalStorage == '') {
-              localStorage.removeItem('product')
-              products = '';
-              location.reload();
-            };
-          };
-          total();          
-        });
-      });
-    };
-
 //Augmenter ou diminuer la quantité d'un produit
     let modifyQuantityProduct = () => {
 
@@ -150,6 +120,36 @@ fetch('http://localhost:3000/api/products')
         });
       });
     };
+
+//Supprimer un produit
+    let deleteProduct = () => {
+
+//Met dans un tableau les boutons supprimer de la page panier
+      let deleteItem = [...document.querySelectorAll('.deleteItem')]
+      let cartItem = [...document.querySelectorAll('.cart__item')]
+      
+//Lors du click sur un bouton supprimer
+      deleteItem.forEach((element, i) => {
+        element.addEventListener('click', () => {
+          let indexCartPage = productInLocalStorage.findIndex((p) => p.colors === cartItem[i].dataset.color && p._id === cartItem[i].dataset.id);
+
+//Si le produit est supprimer, il disparait de la page panier et du local storage
+          if (indexCartPage !== -1) {
+            productInLocalStorage.splice(indexCartPage, 1)
+            localStorage.setItem('product', JSON.stringify(productInLocalStorage))
+            cartItem[i].remove();
+
+//Si le tableau crée précédement est vide, il est supprimer et la page est raffraichie
+            if (productInLocalStorage == '') {
+              localStorage.removeItem('product')
+              products = '';
+              location.reload();
+            };
+          };
+          total();          
+        });
+      });
+    };
     showCart();
     deleteProduct();
     modifyQuantityProduct();
@@ -158,10 +158,115 @@ fetch('http://localhost:3000/api/products')
 
 //Étape 10 : Passer la commande
 
+//Lorsque je renseigne les champs du formulaire
+		addEventListener('change', () => {
+      
+//Je renseigne le prénom 
+			function informFirstName() {
+				let firstName = document.getElementById('firstName').value;
+				let firstNameErrorMsg = document.getElementById('firstNameErrorMsg');
+				let textNameRegex =/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,100}$/;
 
-	})
+				if (firstName.match(textNameRegex)) {
+					firstNameErrorMsg.innerHTML = 'Prénom valide';
+					firstNameErrorMsg.style.color = '#32CD32';
+				} else {
+          firstNameErrorMsg.innerHTML = 'Prénom invalide !';
+          firstNameErrorMsg.style.color = '#ff2d49';
+        };
+        if (firstName == '') {
+					firstNameErrorMsg.innerHTML = 'Veuillez renseigner votre prénom';
+          firstNameErrorMsg.style.color = '#2C3E50';
+				};
+			};
+			informFirstName();
+
+//Je renseigne le nom
+			function informLastName() {
+				let lastName = document.getElementById('lastName').value;
+				let lastNameErrorMsg = document.getElementById('lastNameErrorMsg');
+				let textNameRegex =/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,100}$/;
+
+				if (lastName.match(textNameRegex)) {
+					lastNameErrorMsg.innerHTML = 'Nom valide';
+					lastNameErrorMsg.style.color = '#32CD32';
+				} else {
+          lastNameErrorMsg.innerHTML = 'Nom invalide !';
+          lastNameErrorMsg.style.color = '#ff2d49';
+        };
+        if (lastName == '') {
+					lastNameErrorMsg.innerHTML = 'Veuillez renseigner votre nom';
+          lastNameErrorMsg.style.color = '#2C3E50';
+				};
+			};
+      informLastName();
+
+
+//Je renseigne l'adresse
+			function informAdress() {
+				let address = document.getElementById('address').value;
+				let addressErrorMsg = document.getElementById('addressErrorMsg');
+				let pattern = /^[a-zA-Z0-9\s,.'-]{5,100}$/;
+        
+				if (address.match(pattern)) {
+					addressErrorMsg.innerHTML = 'Adresse valide';
+					addressErrorMsg.style.color = '#32CD32';
+				} else {
+					addressErrorMsg.innerHTML ='Adresse invalide !';
+          addressErrorMsg.style.color = '#ff2d49';
+				};
+				if (address == '') {
+					addressErrorMsg.innerHTML = 'Veuillez reseigner votre adresse';
+          addressErrorMsg.style.color = '#2C3E50';
+				};
+			};
+      informAdress();
+
+
+//Je renseigne la ville
+			function informCity() {
+				let city = document.getElementById('city').value;
+				let cityErrorMsg = document.getElementById('cityErrorMsg');
+				let textCityRegex =/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,58}$/;
+
+				if (city.match(textCityRegex)) {
+					cityErrorMsg.innerHTML = 'Ville valide';
+					cityErrorMsg.style.color = '#32CD32';
+				} else {
+					cityErrorMsg.innerHTML = 'Ville invalide !';
+					cityErrorMsg.style.color = '#ff2d49';
+				};
+				if (city == '') {
+					cityErrorMsg.innerHTML = 'Veuillez renseigner votre ville';
+          cityErrorMsg.style.color = '#2C3E50';
+				};
+			};
+      informCity();
+
+
+//Je renseigne l'Email
+			function informEmail() {
+				let email = document.getElementById('email').value
+				let emailErrorMsg = document.getElementById('emailErrorMsg')
+        let emailRegex = /^([A-Za-z0-9.-_]{1,100})+@([A-Za-z0-9.-_]{1,100})+.+[a-z]{2,10}$/;
+
+
+				if (email.match(emailRegex)) {
+					emailErrorMsg.innerHTML = 'Email valide';
+					emailErrorMsg.style.color = '#32CD32';
+				} else {
+					emailErrorMsg.innerHTML = 'Email invalide !';
+					emailErrorMsg.style.color = '#ff2d49';
+				};
+				if (email == '') {
+					emailErrorMsg.innerHTML = 'Veuillez renseigner votre Email';
+          emailErrorMsg.style.color = '#2C3E50';
+				};
+			};
+			informEmail();
+		});
+	});
 
 
 
-
-showCommand()
+showCommand();
