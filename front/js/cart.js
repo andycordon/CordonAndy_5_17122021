@@ -184,7 +184,7 @@ fetch('http://localhost:3000/api/products')
   });
 
 //Je renseigne le nom
-  lastName.addEventListener("input", (event) => {
+  lastName.addEventListener('input', (event) => {
     event.preventDefault();
     if (textNameRegex.test(lastName.value) == false || lastName.value == '') {
       document.getElementById('lastNameErrorMsg').innerHTML = 'Nom invalide !';
@@ -257,17 +257,34 @@ fetch('http://localhost:3000/api/products')
     email: email.value,
   };
 
+//Alerte pour prévenir le client de problème dans le formulaire
+let alert = document.querySelector('.cart__order__form__submit');
+
+//Faire en sorte que l'alerte disparaisse apres affichage
+let endAlert = () => {
+  let endAlert = document.querySelector('#alert');
+  setTimeout(function () {
+      endAlert.remove();
+  }, 2000);
+};
+
 //Si il manque tous les champs, affichage d'une alerte
-  if (
-  firstName.value === "" || lastName.value === "" || address.value === "" || city.value === "" || email.value === ""
-  ) {
-  alert('Veuillez renseigner tous les champs');
+  if (firstName.value === "" || lastName.value === "" || address.value === "" || city.value === "" || email.value === "") {
+    alert.insertAdjacentHTML(
+      'afterend',
+      `<div id ='alert' style='text-align: center; font-weight: bold; color: #2C3E50'>
+      <br>Veuillez renseigner tous les champs !</div>`
+  );
+  endAlert();
 
 //Si manque un ou plusieur champs, affichage d'une alerte
-  } else if (
-    textNameRegex.test(firstName.value) == false || textNameRegex.test(lastName.value) == false || textAdressRegex.test(address.value) == false ||textCityRegex.test(city.value) == false || textEmailRegex.test(email.value) == false
-      ) {
-      alert('Un ou plusieurs champs sont invalides');
+  } else if (textNameRegex.test(firstName.value) == false || textNameRegex.test(lastName.value) == false || textAdressRegex.test(address.value) == false ||textCityRegex.test(city.value) == false || textEmailRegex.test(email.value) == false) {
+    alert.insertAdjacentHTML(
+      'afterend',
+      `<div id ='alert' style='text-align: center; font-weight: bold; color: #2C3E50'>
+      <br>Un ou plusieurs champs sont invalides !</div>`
+  );
+  endAlert();
 
 //Sinon, envoyer la commande
       } else {
@@ -289,6 +306,7 @@ fetch('http://localhost:3000/api/products')
       .then(response => response.json())
       .then((data) => {
         window.location.href = './confirmation.html?orderId=';
+        console.log(data);
         //localStorage.clear();
       });
     }; 
