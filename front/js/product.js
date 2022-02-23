@@ -122,7 +122,7 @@ let createProduct = () => {
         let endAlert = document.querySelector('#alert');
         setTimeout(function () {
             endAlert.remove();
-        }, 2500);
+        }, 2000);
     };
 
 //Ajout du produit dans le local storage
@@ -158,6 +158,9 @@ let createProduct = () => {
 		if (!productInLocalStorage) {
 			productInLocalStorage = [];
 			addProductInLocalStorage();
+
+//Permet d'actualisé le panier lors d'un ajout de produit
+            setTimeout("location.reload(true);",2000);
 		}
 //Sinon on cherche dans le panier si un produit est déjà présent
 		else {
@@ -165,6 +168,9 @@ let createProduct = () => {
 //Si le produit à déjà été ajouté, sa quantité est modifié
 			if (index !== -1) {
 				modifyProductInLocalStorage(index);
+
+//Permet d'actualisé le panier lors d'un ajout de produit
+                setTimeout("location.reload(true);",2000);
 			}
 //Sinon ajout du nouveau produit
 			else {
@@ -176,6 +182,22 @@ let createProduct = () => {
 
 //Cliquer pour envoyer dans le panier
 let sendToCart = document.querySelector('#addToCart');
-sendToCart.addEventListener('click', (event) => {
+sendToCart.addEventListener('click', (e) => {
+    e.preventDefault()
 	createProduct();
 });
+
+//Indique la quantité de produit dans le panier
+let numberProductsInCart = () => {
+let cart = document.getElementsByTagName('nav')[0].getElementsByTagName('li')[1];
+let productInLocalStorage = JSON.parse(localStorage.getItem('product'));
+let numberProducts = 0;
+
+for (let q in productInLocalStorage) {
+    let quantityProductsInLocalStorage = parseInt(productInLocalStorage[q].quantity);
+    numberProducts += quantityProductsInLocalStorage
+};
+
+cart.innerHTML = `Panier  <span id='numberProductsInCart' style='color: '#2C3E50;'>( ${numberProducts} )</span>`;
+};
+numberProductsInCart();

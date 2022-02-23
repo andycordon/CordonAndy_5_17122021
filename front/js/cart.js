@@ -2,8 +2,9 @@
 
 //Récuperation des données du local storage
 let productInLocalStorage = JSON.parse(localStorage.getItem('product'));
-let saveContactLocalStorage = JSON.parse(localStorage.getItem('contact'));
-
+let contactInLocalStorage = JSON.parse(localStorage.getItem('contact'))
+let cartItems = document.querySelector('#cart__items');
+let products = []
 
 //Appel de l'API avec Fetch
 fetch('http://localhost:3000/api/products')
@@ -20,7 +21,7 @@ fetch('http://localhost:3000/api/products')
     document.querySelector('#cart__items').innerHTML =`
     <div class = 'cart__none'>
         <p id ='alert' style='text-align: center; font-weight: bold; font-size:25px; color: #2C3E50'>
-        Aucun article dans votre panier...</p>
+        Aucun article dans votre panier . . .</p>
     </div>`;
 
 //Sinon, panier non vide, afficher ceux présents du localstorage
@@ -30,13 +31,11 @@ fetch('http://localhost:3000/api/products')
       for (let i in productInLocalStorage) {
 
 //Création du tableau et ajout des produits
-        let products = [];
         let productsId = [productInLocalStorage[i]._id];
-        products.push(productsId);
         let id = productInLocalStorage[i]._id;
         let data = findProduct(id);
         let priceTotalArticles = data.price * productInLocalStorage[i].quantity;
-        let cartItems = document.querySelector('#cart__items');
+        products.push(productsId);
         cartItems.innerHTML += `
           <article class="cart__item" data-id="${productInLocalStorage[i]._id}" data-color="${productInLocalStorage[i].colors}">
             <div class="cart__item__img">
@@ -72,11 +71,10 @@ fetch('http://localhost:3000/api/products')
 
       if (document.URL.includes('cart.html')) {
         for (let j in productInLocalStorage) {
-          let id = productInLocalStorage[j]._id;
-          let myProductsTotal = findProduct(id);
+          let myProductsTotal = findProduct(productInLocalStorage[j]._id);
           let quantityInLocalStorage = parseInt(productInLocalStorage[j].quantity);
-          totalProducts += quantityInLocalStorage;
           let priceInLocalStorage = parseInt(myProductsTotal.price);
+          totalProducts += quantityInLocalStorage
           totalAmount += (priceInLocalStorage * quantityInLocalStorage);
         };
         totalQuantity.innerHTML = totalProducts
@@ -103,7 +101,8 @@ fetch('http://localhost:3000/api/products')
             itemQuantity[i].value = 100;
         
 //Sinon met à jour la modification de la quantité
-          } else {
+          } 
+          else {
             productInLocalStorage[i].quantity = itemQuantity[i].value
             localStorage.setItem('product',JSON.stringify(productInLocalStorage))
           }
@@ -155,118 +154,164 @@ fetch('http://localhost:3000/api/products')
     modifyQuantityProduct();
   };
 
-
 //Étape 10 : Passer la commande
 
-//Lorsque je renseigne les champs du formulaire
-		addEventListener('change', () => {
-      
-//Je renseigne le prénom 
-			function informFirstName() {
-				let firstName = document.getElementById('firstName').value;
-				let firstNameErrorMsg = document.getElementById('firstNameErrorMsg');
-				let textNameRegex =/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,100}$/;
+//Création de variable pour le Regex du formulaire
+  let textNameRegex =/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð,.'-]{1,100}$/;
+  let textAdressRegex = /^[a-zA-Z0-9\s,.'-]{5,100}$/;
+  let textCityRegex =/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,58}$/;
+  let textEmailRegex = /^([A-Za-z0-9.-_]{1,100})+@([A-Za-z0-9.-_]{1,100})+.+[a-z]{2,10}$/;
 
-				if (firstName.match(textNameRegex)) {
-					firstNameErrorMsg.innerHTML = 'Prénom valide';
-					firstNameErrorMsg.style.color = '#32CD32';
-				} else {
-          firstNameErrorMsg.innerHTML = 'Prénom invalide !';
-          firstNameErrorMsg.style.color = '#ff2d49';
-        };
-        if (firstName == '') {
-					firstNameErrorMsg.innerHTML = 'Veuillez renseigner votre prénom';
-          firstNameErrorMsg.style.color = '#2C3E50';
-				};
-			};
-			informFirstName();
+  const firstName = document.getElementById('firstName');
+  const lastName = document.getElementById('lastName');
+  const address = document.getElementById('address');
+  const city = document.getElementById('city');
+  const email = document.getElementById('email');
+
+//Je renseigne le prénom 
+  firstName.addEventListener('input', (event) => {
+    event.preventDefault();
+    if (textNameRegex.test(firstName.value) == false || firstName.value == '') {
+      document.getElementById('firstNameErrorMsg').innerHTML ='Prénom invalide !';
+      document.getElementById('firstNameErrorMsg').style.color = '#2C3E50';
+      document.getElementById('firstName').style.background = '#fb5043';
+    }
+    else {
+      document.getElementById('firstNameErrorMsg').innerHTML = 'Prénom valide';
+      document.getElementById('firstNameErrorMsg').style.color = " #32CD32";
+      document.getElementById('firstName').style.background = '#fff';
+    };
+  });
 
 //Je renseigne le nom
-			function informLastName() {
-				let lastName = document.getElementById('lastName').value;
-				let lastNameErrorMsg = document.getElementById('lastNameErrorMsg');
-				let textNameRegex =/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,100}$/;
-
-				if (lastName.match(textNameRegex)) {
-					lastNameErrorMsg.innerHTML = 'Nom valide';
-					lastNameErrorMsg.style.color = '#32CD32';
-				} else {
-          lastNameErrorMsg.innerHTML = 'Nom invalide !';
-          lastNameErrorMsg.style.color = '#ff2d49';
-        };
-        if (lastName == '') {
-					lastNameErrorMsg.innerHTML = 'Veuillez renseigner votre nom';
-          lastNameErrorMsg.style.color = '#2C3E50';
-				};
-			};
-      informLastName();
-
+  lastName.addEventListener("input", (event) => {
+    event.preventDefault();
+    if (textNameRegex.test(lastName.value) == false || lastName.value == '') {
+      document.getElementById('lastNameErrorMsg').innerHTML = 'Nom invalide !';
+      document.getElementById('lastNameErrorMsg').style.color = '#2C3E50';
+      document.getElementById('lastName').style.background = '#fb5043';
+    } 
+    else {
+      document.getElementById('lastNameErrorMsg').innerHTML = 'Nom valide';
+      document.getElementById('lastNameErrorMsg').style.color = " #32CD32";
+      document.getElementById('lastName').style.background = '#fff';
+    };
+  });
 
 //Je renseigne l'adresse
-			function informAdress() {
-				let address = document.getElementById('address').value;
-				let addressErrorMsg = document.getElementById('addressErrorMsg');
-				let pattern = /^[a-zA-Z0-9\s,.'-]{5,100}$/;
-        
-				if (address.match(pattern)) {
-					addressErrorMsg.innerHTML = 'Adresse valide';
-					addressErrorMsg.style.color = '#32CD32';
-				} else {
-					addressErrorMsg.innerHTML ='Adresse invalide !';
-          addressErrorMsg.style.color = '#ff2d49';
-				};
-				if (address == '') {
-					addressErrorMsg.innerHTML = 'Veuillez reseigner votre adresse';
-          addressErrorMsg.style.color = '#2C3E50';
-				};
-			};
-      informAdress();
-
+  address.addEventListener('input', (event) => {
+    event.preventDefault();
+    if (textAdressRegex.test(address.value) == false || address.value == '') {
+      document.getElementById('addressErrorMsg').innerHTML = 'Adresse invalide !';
+      document.getElementById('addressErrorMsg').style.color = '#2C3E50';
+      document.getElementById('address').style.background = '#fb5043';
+    } 
+    else {
+      document.getElementById('addressErrorMsg').innerHTML = 'Adresse valide';
+      document.getElementById('addressErrorMsg').style.color = " #32CD32";
+      document.getElementById('address').style.background = '#fff';
+    };
+  });
 
 //Je renseigne la ville
-			function informCity() {
-				let city = document.getElementById('city').value;
-				let cityErrorMsg = document.getElementById('cityErrorMsg');
-				let textCityRegex =/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,58}$/;
-
-				if (city.match(textCityRegex)) {
-					cityErrorMsg.innerHTML = 'Ville valide';
-					cityErrorMsg.style.color = '#32CD32';
-				} else {
-					cityErrorMsg.innerHTML = 'Ville invalide !';
-					cityErrorMsg.style.color = '#ff2d49';
-				};
-				if (city == '') {
-					cityErrorMsg.innerHTML = 'Veuillez renseigner votre ville';
-          cityErrorMsg.style.color = '#2C3E50';
-				};
-			};
-      informCity();
-
+  city.addEventListener('input', (event) => {
+    event.preventDefault();
+    if (textCityRegex.test(city.value) == false || city.value == '') {
+      document.getElementById('cityErrorMsg').innerHTML = 'Ville invalide !';
+      document.getElementById('cityErrorMsg').style.color = '#2C3E50';
+      document.getElementById('city').style.background = '#fb5043';
+    } 
+    else {
+      document.getElementById('cityErrorMsg').innerHTML = 'Ville valide';
+      document.getElementById('cityErrorMsg').style.color = " #32CD32";
+      document.getElementById('city').style.background = '#fff';
+    };
+  });
 
 //Je renseigne l'Email
-			function informEmail() {
-				let email = document.getElementById('email').value
-				let emailErrorMsg = document.getElementById('emailErrorMsg')
-        let emailRegex = /^([A-Za-z0-9.-_]{1,100})+@([A-Za-z0-9.-_]{1,100})+.+[a-z]{2,10}$/;
+  email.addEventListener('input', (event) => {
+    event.preventDefault();
+    if (textEmailRegex.test(email.value) == false || email.value == '') {
+      document.getElementById('emailErrorMsg').innerHTML = 'Email invalide !';
+      document.getElementById('emailErrorMsg').style.color = '#2C3E50';
+      document.getElementById('email').style.background = '#fb5043';
+    } 
+    else {
+      document.getElementById('emailErrorMsg').innerHTML = 'Email valide';
+      document.getElementById('emailErrorMsg').style.color = " #32CD32";
+      document.getElementById('email').style.background = '#fff';
+    };
+  });
+
+//Pour envoyer la commande
+  let order = document.getElementById('order');
+  order.addEventListener('click', (o) => {
+  o.preventDefault();
+
+//Création de l'objet "contact"
+  let contact = {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    address: address.value,
+    city: city.value,
+    email: email.value,
+  };
+
+//Si il manque tous les champs, affichage d'une alerte
+  if (
+  firstName.value === "" || lastName.value === "" || address.value === "" || city.value === "" || email.value === ""
+  ) {
+  alert('Veuillez renseigner tous les champs');
+
+//Si manque un ou plusieur champs, affichage d'une alerte
+  } else if (
+    textNameRegex.test(firstName.value) == false || textNameRegex.test(lastName.value) == false || textAdressRegex.test(address.value) == false ||textCityRegex.test(city.value) == false || textEmailRegex.test(email.value) == false
+      ) {
+      alert('Un ou plusieurs champs sont invalides');
+
+//Sinon, envoyer la commande
+      } else {
+          let ordered = [];
+          productInLocalStorage.forEach((order) => {
+          ordered.push(order.id);
+      });
+      
+      let pageOrder = { contact, ordered };
+
+//Étape 11 : Afficher le numéro de commande
+      fetch('http://localhost:3000/api/products/order', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(pageOrder),
+      })
+      .then(response => response.json())
+      .then((data) => {
+        window.location.href = './confirmation.html?orderId=';
+        //localStorage.clear();
+      });
+    }; 
+  });
+}); 
 
 
-				if (email.match(emailRegex)) {
-					emailErrorMsg.innerHTML = 'Email valide';
-					emailErrorMsg.style.color = '#32CD32';
-				} else {
-					emailErrorMsg.innerHTML = 'Email invalide !';
-					emailErrorMsg.style.color = '#ff2d49';
-				};
-				if (email == '') {
-					emailErrorMsg.innerHTML = 'Veuillez renseigner votre Email';
-          emailErrorMsg.style.color = '#2C3E50';
-				};
-			};
-			informEmail();
-		});
-	});
 
 
 
-showCommand();
+
+
+//Indique la quantité de produit dans le panier
+let numberProductsInCart = () => {
+  let cart = document.getElementsByTagName('nav')[0].getElementsByTagName('li')[1];
+  let productInLocalStorage = JSON.parse(localStorage.getItem('product'));
+  let numberProducts = 0;
+  
+  for (let q in productInLocalStorage) {
+      let quantityProductsInLocalStorage = parseInt(productInLocalStorage[q].quantity);
+      numberProducts += quantityProductsInLocalStorage
+  };
+
+  cart.innerHTML = `Panier  <span id='numberProductsInCart' style='color: '#2C3E50;'>( ${numberProducts} )</span>`;
+};
+numberProductsInCart();
