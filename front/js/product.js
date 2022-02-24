@@ -45,10 +45,13 @@ fetch('http://localhost:3000/api/products')
             );
         };
     };
-
     showProductInPage();
+})
+.catch(function (error) {
+    alert(
+      'Le serveur ne répond pas, si ce problème persiste, contacter: support@name.com'
+    );
 });
-
 
 //Étape 7 : Ajouter des produits dans le panier
 //Créer le produit

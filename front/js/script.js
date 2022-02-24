@@ -21,6 +21,11 @@ fetch('http://localhost:3000/api/products')
     };
   };
 showAllProducts();
+})
+.catch(function (error) {
+  alert(
+    'Le serveur ne répond pas, si ce problème persiste, contacter: support@name.com'
+  );
 });
 
 //Indique la quantité de produit dans le panier

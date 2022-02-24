@@ -265,7 +265,7 @@ let endAlert = () => {
   let endAlert = document.querySelector('#alert');
   setTimeout(function () {
       endAlert.remove();
-  }, 2000);
+  }, 3000);
 };
 
 //Si il manque tous les champs, affichage d'une alerte
@@ -308,10 +308,20 @@ let endAlert = () => {
         window.location.href = './confirmation.html?orderId=';
         console.log(data);
         //localStorage.clear();
+      })
+      .catch(function (error) {
+        alert(
+          'Le serveur ne répond pas, si ce problème persiste, contacter: support@name.com'
+        );
       });
     }; 
   });
-}); 
+})
+.catch(function (error) {
+  alert(
+    'Le serveur ne répond pas, si ce problème persiste, contacter: support@name.com'
+  );
+});
 
 
 
