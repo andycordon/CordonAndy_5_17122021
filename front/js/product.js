@@ -13,7 +13,7 @@ fetch('http://localhost:3000/api/products')
 
 //Trouver le produit sélectionné avec son id
     let findProduct = () => {
-        return data.find((product) => product._id === idProduct)
+        return data.find((product) => product._id === idProduct);
     };
 
     let myProduct = findProduct();
@@ -53,7 +53,9 @@ fetch('http://localhost:3000/api/products')
     );
 });
 
+
 //Étape 7 : Ajouter des produits dans le panier
+
 //Créer le produit
 let createProduct = () => {
 	let quantity = document.querySelector('#quantity');
@@ -92,6 +94,7 @@ let createProduct = () => {
 
 //Création des alertes d'erreurs de sélections
 	let errorAlert = () => {
+
 //Alerte pour une couleur non sélectionné
 		if (optionProduct.colors == '') {
 			alert.insertAdjacentHTML(
@@ -101,6 +104,7 @@ let createProduct = () => {
                 );
 			endAlert();
 		};
+
 //Alerte pour quantité non sélectionné
 		if (optionProduct.quantity <= 0) {
 			alert.insertAdjacentHTML(
@@ -109,6 +113,7 @@ let createProduct = () => {
                 <br>Veuillez choisir une quantité entre 1 et 100</span>`
 			);
 			endAlert();
+
 //Alerte pour une quantité supérieur a 100
 		} else if (optionProduct.quantity > 100) {
 			alert.insertAdjacentHTML(
@@ -145,18 +150,22 @@ let createProduct = () => {
 
     if (beforeMoreAfterAddProductInLocalStorage > 100) {
         maxLimitAlert();
+
 //Ajouter un produit dans le local storage
     } else {
         productInLocalStorage[i].quantity += optionProduct.quantity;
         localStorage.setItem('product', JSON.stringify(productInLocalStorage));
         addProductAlert();
-    }
-}
+    };
+};
+
 //Si couleurs ou quantités non ou mal choisis, prévenir le client 
 	if (optionProduct.colors == '' || optionProduct.quantity <= 0 || optionProduct.quantity > 100) {
 		errorAlert();
+
 //Sinon on ajoute un ou plusieurs produits
 	} else {
+
 //Si le panier est vide, création d'un tableau pour y ajouter le produit
 		if (!productInLocalStorage) {
 			productInLocalStorage = [];
@@ -165,9 +174,11 @@ let createProduct = () => {
 //Permet d'actualisé le panier lors d'un ajout de produit
             setTimeout("location.reload(true);",2000);
 		}
+
 //Sinon on cherche dans le panier si un produit est déjà présent
 		else {
 			let index = productInLocalStorage.findIndex((p) => p.colors === optionProduct.colors && p._id === optionProduct._id);
+
 //Si le produit à déjà été ajouté, sa quantité est modifié
 			if (index !== -1) {
 				modifyProductInLocalStorage(index);
@@ -175,6 +186,7 @@ let createProduct = () => {
 //Permet d'actualisé le panier lors d'un ajout de produit
                 setTimeout("location.reload(true);",2000);
 			}
+
 //Sinon ajout du nouveau produit
 			else {
 				addProductInLocalStorage();
@@ -186,7 +198,7 @@ let createProduct = () => {
 //Cliquer pour envoyer dans le panier
 let sendToCart = document.querySelector('#addToCart');
 sendToCart.addEventListener('click', (e) => {
-    e.preventDefault()
+    e.preventDefault();
 	createProduct();
 });
 

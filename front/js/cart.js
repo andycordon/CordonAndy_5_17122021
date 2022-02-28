@@ -2,9 +2,8 @@
 
 //Récuperation des données du local storage
 let productInLocalStorage = JSON.parse(localStorage.getItem('product'));
-let contactInLocalStorage = JSON.parse(localStorage.getItem('contact'))
 let cartItems = document.querySelector('#cart__items');
-let products = []
+let products = [];
 
 //Appel de l'API avec Fetch
 fetch('http://localhost:3000/api/products')
@@ -124,8 +123,8 @@ fetch('http://localhost:3000/api/products')
     let deleteProduct = () => {
 
 //Met dans un tableau les boutons supprimer de la page panier
-      let deleteItem = [...document.querySelectorAll('.deleteItem')]
-      let cartItem = [...document.querySelectorAll('.cart__item')]
+      let deleteItem = [...document.querySelectorAll('.deleteItem')];
+      let cartItem = [...document.querySelectorAll('.cart__item')];
       
 //Lors du click sur un bouton supprimer
       deleteItem.forEach((element, i) => {
@@ -154,6 +153,7 @@ fetch('http://localhost:3000/api/products')
     modifyQuantityProduct();
   };
 
+
 //Étape 10 : Passer la commande
 
 //Création de variable pour le Regex du formulaire
@@ -172,14 +172,14 @@ fetch('http://localhost:3000/api/products')
   firstName.addEventListener('input', (event) => {
     event.preventDefault();
     if (textNameRegex.test(firstName.value) == false || firstName.value == '') {
-      document.getElementById('firstNameErrorMsg').innerHTML ='Prénom invalide !';
+      document.getElementById('firstNameErrorMsg').innerHTML = 'Prénom invalide !';
       document.getElementById('firstNameErrorMsg').style.color = '#2C3E50';
       document.getElementById('firstName').style.background = '#fb5043';
     }
     else {
       document.getElementById('firstNameErrorMsg').innerHTML = 'Prénom valide';
-      document.getElementById('firstNameErrorMsg').style.color = " #32CD32";
-      document.getElementById('firstName').style.background = '#fff';
+      document.getElementById('firstNameErrorMsg').style.color = '#2C3E50';
+      document.getElementById('firstName').style.background = '#32CD32';
     };
   });
 
@@ -193,8 +193,8 @@ fetch('http://localhost:3000/api/products')
     } 
     else {
       document.getElementById('lastNameErrorMsg').innerHTML = 'Nom valide';
-      document.getElementById('lastNameErrorMsg').style.color = " #32CD32";
-      document.getElementById('lastName').style.background = '#fff';
+      document.getElementById('lastNameErrorMsg').style.color = '#2C3E50';
+      document.getElementById('lastName').style.background = '#32CD32';
     };
   });
 
@@ -208,8 +208,8 @@ fetch('http://localhost:3000/api/products')
     } 
     else {
       document.getElementById('addressErrorMsg').innerHTML = 'Adresse valide';
-      document.getElementById('addressErrorMsg').style.color = " #32CD32";
-      document.getElementById('address').style.background = '#fff';
+      document.getElementById('addressErrorMsg').style.color = '#2C3E50';
+      document.getElementById('address').style.background = '#32CD32';
     };
   });
 
@@ -223,8 +223,8 @@ fetch('http://localhost:3000/api/products')
     } 
     else {
       document.getElementById('cityErrorMsg').innerHTML = 'Ville valide';
-      document.getElementById('cityErrorMsg').style.color = " #32CD32";
-      document.getElementById('city').style.background = '#fff';
+      document.getElementById('cityErrorMsg').style.color = '#2C3E50';
+      document.getElementById('city').style.background = '#32CD32';
     };
   });
 
@@ -238,8 +238,8 @@ fetch('http://localhost:3000/api/products')
     } 
     else {
       document.getElementById('emailErrorMsg').innerHTML = 'Email valide';
-      document.getElementById('emailErrorMsg').style.color = " #32CD32";
-      document.getElementById('email').style.background = '#fff';
+      document.getElementById('emailErrorMsg').style.color = '#2C3E50';
+      document.getElementById('email').style.background = '#32CD32';
     };
   });
 
@@ -265,7 +265,7 @@ let endAlert = () => {
   let endAlert = document.querySelector('#alert');
   setTimeout(function () {
       endAlert.remove();
-  }, 3000);
+  }, 2000);
 };
 
 //Si il manque tous les champs, affichage d'une alerte
@@ -294,6 +294,8 @@ let endAlert = () => {
       });
       
       let pageOrder = { contact, products };
+
+
 //Étape 11 : Afficher le numéro de commande 1/2
       fetch('http://localhost:3000/api/products/order', {
         method: 'POST',
@@ -319,7 +321,6 @@ let endAlert = () => {
     'Le serveur ne répond pas, si ce problème persiste, contacter: support@name.com'
   );
 });
-
 
 //Indique la quantité de produit dans le panier
 let numberProductsInCart = () => {

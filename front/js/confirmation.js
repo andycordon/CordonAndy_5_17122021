@@ -1,4 +1,5 @@
 //Étape 11 : Afficher le numéro de commande 2/2
+
 //Récupération de 'orderID' depuis l'URL
  function getOrderId() {
     let url = new URL(window.location.href);
