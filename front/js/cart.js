@@ -288,26 +288,23 @@ let endAlert = () => {
 
 //Sinon, envoyer la commande
       } else {
-          let ordered = [];
+          let products = [];
           productInLocalStorage.forEach((order) => {
-          ordered.push(order.id);
+            products.push(order._id);
       });
       
-      let pageOrder = { contact, ordered };
-
-//Étape 11 : Afficher le numéro de commande
+      let pageOrder = { contact, products };
+//Étape 11 : Afficher le numéro de commande 1/2
       fetch('http://localhost:3000/api/products/order', {
         method: 'POST',
         headers: {
-          'Content-type': 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(pageOrder),
       })
       .then(response => response.json())
       .then((data) => {
-        window.location.href = './confirmation.html?orderId=';
-        console.log(data);
-        //localStorage.clear();
+        window.location.href = './confirmation.html?orderId=' + data.orderId;
       })
       .catch(function (error) {
         alert(
@@ -322,11 +319,6 @@ let endAlert = () => {
     'Le serveur ne répond pas, si ce problème persiste, contacter: support@name.com'
   );
 });
-
-
-
-
-
 
 
 //Indique la quantité de produit dans le panier
