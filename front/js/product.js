@@ -140,7 +140,7 @@ let createProduct = () => {
         addProductAlert();
     }
 
-//Modifie un produit sélectionné dans le localStorage
+//Modifie un produit sélectionné dans le local storage
     let modifyProductInLocalStorage = (i) => {
         productInLocalStorage[i].quantity = parseInt(productInLocalStorage[i].quantity);
         optionProduct.quantity = parseInt(optionProduct.quantity);

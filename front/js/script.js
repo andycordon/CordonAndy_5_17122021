@@ -11,11 +11,11 @@ fetch('http://localhost:3000/api/products')
 
     for (let p in data) {
       products.innerHTML += `
-        <a href="./product.html?id=${data[p]._id}">
+        <a href='./product.html?id=${data[p]._id}'>
           <article>
-            <img src="${data[p].imageUrl}" alt="${data[p].altTxt}">
-            <h3 class="productName">${data[p].name}</h3>
-            <p class="productDescription">${data[p].description}</p>
+            <img src='${data[p].imageUrl}' alt="${data[p].altTxt}">
+            <h3 class='productName'>${data[p].name}</h3>
+            <p class='productDescription'>${data[p].description}</p>
           </article>
         </a>`
     };
