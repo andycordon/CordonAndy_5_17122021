@@ -289,8 +289,8 @@ let endAlert = () => {
 //Sinon, envoyer la commande
       } else {
           let products = [];
-          productInLocalStorage.forEach((order) => {
-            products.push(order._id);
+          productInLocalStorage.forEach((p) => {
+            products.push(p._id);
       });
       
       let pageOrder = { contact, products };
