@@ -9,7 +9,7 @@
 
 //Une fois récupérer, je l'affiche
 let orderId = document.getElementById('orderId');
-orderId.innerHTML = getOrderId();
+orderId.textContent = getOrderId();
 
 //Et je vide le local storage
 localStorage.clear();

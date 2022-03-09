@@ -6,21 +6,30 @@ fetch('http://localhost:3000/api/products')
 .then((data) => {
 
 //Afficher les produits avec une boucle
-  let showAllProducts = () => {
-    let products = document.getElementById('items');
+  for (let i = 0; i < data.length; i++) { 
+    let product = document.createElement('article');
+    let link = document.createElement('a');
+    let picture = document.createElement('img');
+    let title = document.createElement('h3');
+    let description = document.createElement('p');
 
-    for (let p in data) {
-      products.innerHTML += `
-        <a href='./product.html?id=${data[p]._id}'>
-          <article>
-            <img src='${data[p].imageUrl}' alt="${data[p].altTxt}">
-            <h3 class='productName'>${data[p].name}</h3>
-            <p class='productDescription'>${data[p].description}</p>
-          </article>
-        </a>`
-    };
-  };
-showAllProducts();
+    document.querySelector('.items').appendChild(link);
+    
+    link.href = `product.html?id=${data[i]._id}`;
+    link.appendChild(product);
+
+    product.appendChild(picture);
+    picture.src = data[i].imageUrl;
+    picture.alt = data[i].altTxt;
+
+    product.appendChild(title);
+    title.classList.add('title');
+    title.textContent = data[i].name;
+
+    product.appendChild(description);
+    description.classList.add('description');
+    description.textContent = data[i].description;
+  }
 })
 .catch(function (error) {
   alert(

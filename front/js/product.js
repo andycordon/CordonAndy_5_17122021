@@ -24,18 +24,20 @@ fetch('http://localhost:3000/api/products')
 //Creation des variables pour affichage le produit sur la page
     let showProductInPage = () => {
         let productName = document.getElementsByTagName('title');
-        let image = document.querySelector('.item__img');
+        let productImg = document.createElement("img");
         let title = document.querySelector('#title');
         let price = document.querySelector('#price');
         let description = document.querySelector('#description');
         let colors = document.querySelector('#colors');
 
 //Affichage du produit sur la page
-        productName[0].innerHTML = myProduct.name
-        image.innerHTML = `<img src="${myProduct.imageUrl}" alt="${myProduct.altTxt}">`
-        title.innerHTML = myProduct.name
-        price.innerHTML = myProduct.price
-        description.innerHTML = myProduct.description
+        document.querySelector(".item__img").appendChild(productImg);
+        productImg.setAttribute("src", `${myProduct.imageUrl}`);
+        productImg.setAttribute("alt", `${myProduct.altTxt}`);
+        productName[0].textContent = myProduct.name
+        title.textContent = myProduct.name
+        price.textContent = myProduct.price
+        description.textContent = myProduct.description
 
 //Affichage de la sélection des couleurs
         for (let i in myProduct.colors) {

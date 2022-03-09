@@ -17,12 +17,9 @@ fetch('http://localhost:3000/api/products')
 
 //Si le panier est vide
   if(productInLocalStorage === null){
-    document.querySelector('#cart__items').innerHTML =`
-    <div class = 'cart__none'>
-        <p id ='alert' style='text-align: center; font-weight: bold; font-size:25px; color: #2C3E50'>
-        Aucun article dans votre panier . . .</p>
-    </div>`;
-
+    let cartItems = document.querySelector('#cart__items')
+    cartItems.textContent = 'Aucun article dans votre panier . . .';
+    
 //Sinon, panier non vide, afficher ceux présents du localstorage
   } else {
   let showCart = () => {
@@ -76,8 +73,8 @@ fetch('http://localhost:3000/api/products')
           totalProducts += quantityInLocalStorage
           totalAmount += (priceInLocalStorage * quantityInLocalStorage);
         };
-        totalQuantity.innerHTML = totalProducts
-        totalPrice.innerHTML = totalAmount
+        totalQuantity.textContent = totalProducts
+        totalPrice.textContent = totalAmount
       };
     };
     total();
@@ -111,7 +108,7 @@ fetch('http://localhost:3000/api/products')
             let priceProduct = document.getElementsByClassName('priceProduct');
             let myProduct = findProduct(productInLocalStorage[i]._id);
             let price = myProduct.price * productInLocalStorage[i].quantity;
-            priceProduct[i].innerHTML = `${price} €`;
+            priceProduct[i].textContent = `${price} €`;
           }
           idProductTotal();
           total();
@@ -172,12 +169,12 @@ fetch('http://localhost:3000/api/products')
   firstName.addEventListener('input', (event) => {
     event.preventDefault();
     if (textNameRegex.test(firstName.value) == false || firstName.value == '') {
-      document.getElementById('firstNameErrorMsg').innerHTML = 'Prénom invalide !';
+      document.getElementById('firstNameErrorMsg').textContent = 'Prénom invalide !';
       document.getElementById('firstNameErrorMsg').style.color = '#2C3E50';
       document.getElementById('firstName').style.background = '#fb5043';
     }
     else {
-      document.getElementById('firstNameErrorMsg').innerHTML = 'Prénom valide';
+      document.getElementById('firstNameErrorMsg').textContent = 'Prénom valide';
       document.getElementById('firstNameErrorMsg').style.color = '#2C3E50';
       document.getElementById('firstName').style.background = '#32CD32';
     };
@@ -187,12 +184,12 @@ fetch('http://localhost:3000/api/products')
   lastName.addEventListener('input', (event) => {
     event.preventDefault();
     if (textNameRegex.test(lastName.value) == false || lastName.value == '') {
-      document.getElementById('lastNameErrorMsg').innerHTML = 'Nom invalide !';
+      document.getElementById('lastNameErrorMsg').textContent = 'Nom invalide !';
       document.getElementById('lastNameErrorMsg').style.color = '#2C3E50';
       document.getElementById('lastName').style.background = '#fb5043';
     } 
     else {
-      document.getElementById('lastNameErrorMsg').innerHTML = 'Nom valide';
+      document.getElementById('lastNameErrorMsg').textContent = 'Nom valide';
       document.getElementById('lastNameErrorMsg').style.color = '#2C3E50';
       document.getElementById('lastName').style.background = '#32CD32';
     };
@@ -202,12 +199,12 @@ fetch('http://localhost:3000/api/products')
   address.addEventListener('input', (event) => {
     event.preventDefault();
     if (textAdressRegex.test(address.value) == false || address.value == '') {
-      document.getElementById('addressErrorMsg').innerHTML = 'Adresse invalide !';
+      document.getElementById('addressErrorMsg').textContent = 'Adresse invalide !';
       document.getElementById('addressErrorMsg').style.color = '#2C3E50';
       document.getElementById('address').style.background = '#fb5043';
     } 
     else {
-      document.getElementById('addressErrorMsg').innerHTML = 'Adresse valide';
+      document.getElementById('addressErrorMsg').textContent = 'Adresse valide';
       document.getElementById('addressErrorMsg').style.color = '#2C3E50';
       document.getElementById('address').style.background = '#32CD32';
     };
@@ -217,12 +214,12 @@ fetch('http://localhost:3000/api/products')
   city.addEventListener('input', (event) => {
     event.preventDefault();
     if (textCityRegex.test(city.value) == false || city.value == '') {
-      document.getElementById('cityErrorMsg').innerHTML = 'Ville invalide !';
+      document.getElementById('cityErrorMsg').textContent = 'Ville invalide !';
       document.getElementById('cityErrorMsg').style.color = '#2C3E50';
       document.getElementById('city').style.background = '#fb5043';
     } 
     else {
-      document.getElementById('cityErrorMsg').innerHTML = 'Ville valide';
+      document.getElementById('cityErrorMsg').textContent = 'Ville valide';
       document.getElementById('cityErrorMsg').style.color = '#2C3E50';
       document.getElementById('city').style.background = '#32CD32';
     };
@@ -232,12 +229,12 @@ fetch('http://localhost:3000/api/products')
   email.addEventListener('input', (event) => {
     event.preventDefault();
     if (textEmailRegex.test(email.value) == false || email.value == '') {
-      document.getElementById('emailErrorMsg').innerHTML = 'Email invalide !';
+      document.getElementById('emailErrorMsg').textContent = 'Email invalide !';
       document.getElementById('emailErrorMsg').style.color = '#2C3E50';
       document.getElementById('email').style.background = '#fb5043';
     } 
     else {
-      document.getElementById('emailErrorMsg').innerHTML = 'Email valide';
+      document.getElementById('emailErrorMsg').textContent = 'Email valide';
       document.getElementById('emailErrorMsg').style.color = '#2C3E50';
       document.getElementById('email').style.background = '#32CD32';
     };
