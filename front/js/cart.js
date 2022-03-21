@@ -16,9 +16,12 @@ fetch('http://localhost:3000/api/products')
   };
 
 //Si le panier est vide
-  if(productInLocalStorage === null){
-    let cartItems = document.querySelector('#cart__items')
-    cartItems.textContent = 'Aucun article dans votre panier . . .';
+if(productInLocalStorage === null){
+  document.querySelector('#cart__items').innerHTML =`
+  <div class = 'cart__none'>
+      <p id ='alert' style='text-align: center; font-weight: bold; font-size:25px; color: #2C3E50'>
+      Aucun article dans votre panier . . .</p>
+  </div>`;
     
 //Sinon, panier non vide, afficher ceux présents du localstorage
   } else {
