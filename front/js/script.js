@@ -15,7 +15,7 @@ fetch('http://localhost:3000/api/products')
 
     document.querySelector('.items').appendChild(link);
     
-    link.href = `product.html?id=${data[i]._id}`;
+    link.href = `front/html/product.html?id=${data[i]._id}`;
     link.appendChild(product);
 
     product.appendChild(picture);
